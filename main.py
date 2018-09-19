@@ -1,5 +1,5 @@
 from game import Game, Player, Token
-from ai import RandomAI
+from ai import RandomAI, RLAgent
 from display import Display, Action, GameMode
 
 from typing import List
@@ -12,8 +12,10 @@ def main() -> None:
   gameMode: GameMode = display.getGameMode()
   if gameMode == GameMode.TWO_PLAYER:
     players = [Player(Token.RED), Player(Token.YELLOW)]
-  elif gameMode == GameMode.SINGLE_PLAYER:
+  elif gameMode == GameMode.EASY:
     players = [Player(Token.RED), RandomAI(Token.YELLOW)]
+  elif gameMode == GameMode.MEDIUM:
+    players = [Player(Token.RED), RLAgent(Token.YELLOW)]
   play = True
   while play:
     for player in players:

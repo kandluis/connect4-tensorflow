@@ -2,6 +2,7 @@ from enum import Enum, unique
 from collections import defaultdict
 from typing import Dict, Tuple, Optional
 from util import *
+import numpy as np
 
 WIN_SEQUENCE_REQUIREMENT = 4
 
@@ -109,6 +110,22 @@ class Game(object):
   def reset(self) -> None:
     self._player_at: Dict[Position, Optional[Player]] = defaultdict(lambda: None)
     self._available_row_index_for_column: Dict[int, int] = defaultdict(int)
+
+  def asNumpyArray(self, forPlayer: Player) -> np.array:
+    '''
+    Returns the player's numpy representation. A 6x7x2 array.
+    '''
+    res = np.zeros((self.nRows, self.nColumns, 2))
+    for row in range(self.nRows):
+      for col in range(self.nColumns):
+        player: Optional[Player] = self._player_at[Position(row, col)]
+        if player is None:
+          res[self.nRows - 1 - row][col] = np.zeros(2)
+        else:
+          res[self.nRows - 1 - row][col][0] = int(forPlayer.token == player.token)
+          res[self.nRows - 1 - row][col][1] = 1 - res[self.nRows - 1 - row][col][0] 
+    return res
+
 
   def _isValidBoardPosition(self, row: int, col: int) -> bool:
     return (0 <= row and row < self.nRows and

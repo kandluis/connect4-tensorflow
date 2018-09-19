@@ -5,8 +5,9 @@ from typing import List
 
 @unique
 class GameMode(Enum):
-  SINGLE_PLAYER = 1
-  TWO_PLAYER = 2
+  EASY = 1
+  MEDIUM = 2
+  TWO_PLAYER = 3
 
   def __str__(self) -> str:
     return self.name
